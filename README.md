@@ -101,7 +101,7 @@ Enterprise governance and compliance engine that ensures data security, quality,
 
 ## Installation Steps
 
-### 0. launch multipass VM
+### 0. launch multipass VMs
 ```bash
 # Launch multipass VM
 multipass launch -n ansible --memory 2G --cpus 2 --disk 10G --cloud-init cloud-init.yaml 22.04
@@ -141,14 +141,15 @@ chmod +x ansible-installation.sh
 ./ansible-installation.sh
 ```
 
-### 2. Test Ansible
+### 2. Test Ansible on ansible vm
 ```bash
 export PATH=/home/jeth/.local/bin:$PATH
 ansible --version
 ```
 
 
-
+### 3. Launch ansible playbook
+Refer to file `DEPLOYMENT_README.md`
 
 
 
