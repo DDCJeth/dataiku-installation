@@ -149,7 +149,8 @@ ansible --version
 
 
 ### 3. Launch ansible playbook
-Refer to file `DEPLOYMENT_README.md`
+
+Refer you to file `DEPLOYMENT_README.md`
 
 
 
