@@ -1,0 +1,21 @@
+---
+# Global defaults for all groups
+dataiku_version: "13.5.5"
+local_archive_path: "{{ playbook_dir }}/dataiku-dss-13.5.5.tar.gz"
+#download_url: "https://downloads.dataiku.com/dss/linux/dataiku-dss-{{ dataiku_version }}.tar.gz"
+install_base: /opt
+dss_user: jeth
+
+# SSH / connection settings (used by Ansible)
+# `ansible_user` and `ansible_ssh_private_key_file` are recommended to be set
+ansible_user: jeth
+ansible_ssh_private_key_file: "{{ playbook_dir }}/multipass-ssh-key"
+ansible_python_interpreter: /usr/bin/python3
+
+# Preflight checks and host expectations
+preflight_min_disk_gb: 20
+preflight_min_ram_gb: 4
+required_ports:	
+- 10000
+- 10011
+- 10022

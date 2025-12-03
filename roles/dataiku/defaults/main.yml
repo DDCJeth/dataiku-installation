@@ -1,0 +1,17 @@
+---
+# Default variables for dataiku role
+dataiku_version: "13.5.5"
+download_url: "https://downloads.dataiku.com/dss/linux/dataiku-dss-{{ dataiku_version }}.tar.gz"
+install_base: /opt
+install_dir: "{{ install_base }}/dataiku-dss-{{ dataiku_version }}"
+dss_user: jeth
+tmp_archive: "/tmp/dataiku-dss-{{ dataiku_version }}.tar.gz"
+tmp_extract_dir: /tmp
+pkg_list_debian:
+  - openjdk-11-jre-headless
+  - wget
+  - tar
+pkg_list_redhat:
+  - java-11-openjdk
+  - wget
+  - tar

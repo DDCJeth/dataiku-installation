@@ -1,0 +1,22 @@
+
+# Ansible playbook to deploy Dataiku DSS nodes as described in README.md
+# Plays for `design`, `automation`, and `deployer` groups defined in `inventory.ini`.
+# Per-group settings (ports, data dirs, boot names) are loaded from `group_vars/`.
+
+- name: Deploy Design Node
+  hosts: design
+  become: true
+  roles:
+    - dataiku
+
+- name: Deploy Automation Nodes
+  hosts: automation
+  become: true
+  roles:
+    - dataiku
+
+- name: Deploy Deployer Node
+  hosts: deployer
+  become: true
+  roles:
+    - dataiku

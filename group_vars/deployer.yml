@@ -1,0 +1,7 @@
+---
+# Variables for the `deployer` group
+node_type: deployer
+dss_port: 10022
+data_dir: /home/jeth/deployer_data
+boot_name: prod
+service_name: dataiku.prod

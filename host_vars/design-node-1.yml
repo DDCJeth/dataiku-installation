@@ -1,0 +1,5 @@
+---
+# Host-specific settings for design-node-1
+dss_node_label: design-node-1
+is_master: true
+# Optional: override any group settings here
