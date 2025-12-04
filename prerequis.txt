@@ -1,0 +1,8 @@
+
+# Sur le serveur ansible
+- 4gb, 4cpus
+- Installation de git, curl, wget, openssh-clients, rsync
+- Installation de python>=3.8
+- commuication ssh avec les noeuds sur lesquels installer Dataiku
+- Avoir un utilisateur ayant les droits root
+

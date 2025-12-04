@@ -1,21 +1,19 @@
 ---
 # Tasks to install Dataiku DSS and configure a systemd service
-- name: Ensure package cache is up to date (Debian)
-  apt:
-    update_cache: yes
-  when: ansible_os_family == 'Debian'
-
-- name: Install required packages (Debian)
-  apt:
-    name: "{{ pkg_list_debian }}"
+- name: Install required packages according to OS
+  package:
+    name: "{{ pkg_list[ansible_os_family] }}"
     state: present
-  when: ansible_os_family == 'Debian'
+  vars:
+    pkg_list:
+      Debian: "{{ pkg_list_debian }}"
+      RedHat: "{{ pkg_list_redhat }}"
 
-- name: Install required packages (RedHat)
-  yum:
-    name: "{{ pkg_list_redhat }}"
+- name: Install rsync
+  dnf:
+    name: rsync
     state: present
-  when: ansible_os_family == 'RedHat'
+  become: true
 
 - name: Ensure dss user exists
   user:
@@ -69,22 +67,12 @@
   become: true
   become_user: "{{ dss_user }}"
 
-- name: Run install-boot.sh to create boot/service (root)
+- name: Deploy systemd service file
   command: "{{ install_dir }}/scripts/install/install-boot.sh -n {{ boot_name }} {{ data_dir }} {{ dss_user }}"
   args:
     chdir: "{{ install_dir }}"
   become: true
   become_user: root
-
-- name: Deploy systemd service file
-  template:
-    src: dataiku.service.j2
-    dest: "/etc/systemd/system/{{ service_name }}.service"
-    owner: root
-    group: root
-    mode: '0644'
-  notify: Reload systemd
-
 
 - name: Reload systemd
   command: systemctl daemon-reload

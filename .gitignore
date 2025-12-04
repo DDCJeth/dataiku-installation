@@ -1,4 +1,9 @@
 dataiku-dss-13.5.5.tar.gz
 draft.txt
 multipass-ssh-key
+multipass-ssh-key.pub
 vm-provisionning
+.venv/
+.ansible/
+*.retry
+__pycache__/

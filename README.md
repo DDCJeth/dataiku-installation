@@ -101,37 +101,33 @@ Enterprise governance and compliance engine that ensures data security, quality,
 
 ## Installation Steps
 
-### 0. launch multipass VMs
+### 0. launch GCP VMs
 ```bash
-# Launch multipass VM
-multipass launch -n ansible --memory 2G --cpus 2 --disk 10G --cloud-init cloud-init.yaml 22.04
-multipass launch -n design-node --memory 2G --cpus 2 --disk 10G --cloud-init cloud-init.yaml 22.04
-multipass launch -n deployer-node --memory 2G --cpus 2 --disk 10G --cloud-init cloud-init.yaml 22.04
-multipass launch -n automation-node --memory 2G --cpus 2 --disk 10G --cloud-init cloud-init.yaml 22.04
+# Launch GCP VM
 
 # Get Ip adress for instance 
-ANSIBLE_SERVER_IP=$(multipass info ansible-vm | grep "IPv4" | awk '{print $2}')
+ANSIBLE_SERVER_IP=$(gcloud compute instances list --filter="name=('ansible-vm')" --format="value(EXTERNAL_IP)")
 
 # Copy ansible installation script
-scp -o StrictHostKeyChecking=no -i './../Manual-Installation/multipass-ssh-key' ansible-installation.sh jeth@${ANSIBLE_SERVER_IP}:/home/jeth
+scp -o StrictHostKeyChecking=no -i './multipass-ssh-key' ansible-installation.sh jeth@${ANSIBLE_SERVER_IP}:/home/jeth
 
-scp -r -o StrictHostKeyChecking=no -i './../Manual-Installation/multipass-ssh-key' roles jeth@${ANSIBLE_SERVER_IP}:/home/jeth
+scp -r -o StrictHostKeyChecking=no -i './multipass-ssh-key' roles jeth@${ANSIBLE_SERVER_IP}:/home/jeth
 
-scp -r -o StrictHostKeyChecking=no -i './../Manual-Installation/multipass-ssh-key' host_vars jeth@${ANSIBLE_SERVER_IP}:/home/jeth
+scp -r -o StrictHostKeyChecking=no -i './multipass-ssh-key' host_vars jeth@${ANSIBLE_SERVER_IP}:/home/jeth
 
 
-scp -r -o StrictHostKeyChecking=no -i './../Manual-Installation/multipass-ssh-key' group_vars jeth@${ANSIBLE_SERVER_IP}:/home/jeth
+scp -r -o StrictHostKeyChecking=no -i './multipass-ssh-key' group_vars jeth@${ANSIBLE_SERVER_IP}:/home/jeth
 
-scp -o StrictHostKeyChecking=no -i './../Manual-Installation/multipass-ssh-key' inventory.ini jeth@${ANSIBLE_SERVER_IP}:/home/jeth
+scp -o StrictHostKeyChecking=no -i './multipass-ssh-key' inventory.ini jeth@${ANSIBLE_SERVER_IP}:/home/jeth
 
-scp -o StrictHostKeyChecking=no -i './../Manual-Installation/multipass-ssh-key' playbook.yml jeth@${ANSIBLE_SERVER_IP}:/home/jeth
+scp -o StrictHostKeyChecking=no -i './multipass-ssh-key' playbook.yml jeth@${ANSIBLE_SERVER_IP}:/home/jeth
 
-scp -o StrictHostKeyChecking=no -i './../Manual-Installation/multipass-ssh-key' multipass-ssh-key jeth@${ANSIBLE_SERVER_IP}:/home/jeth
+scp -o StrictHostKeyChecking=no -i './multipass-ssh-key' multipass-ssh-key jeth@${ANSIBLE_SERVER_IP}:/home/jeth
 
-scp -r -o StrictHostKeyChecking=no -i './../Manual-Installation/multipass-ssh-key' dataiku-dss-13.5.5.tar.gz jeth@${ANSIBLE_SERVER_IP}:/home/jeth
+scp -r -o StrictHostKeyChecking=no -i './multipass-ssh-key' dataiku-dss-13.5.5.tar.gz jeth@${ANSIBLE_SERVER_IP}:/home/jeth
 
 # Connect to ansible server
-ssh -i './../Manual-Installation/multipass-ssh-key' jeth@${ANSIBLE_SERVER_IP}
+ssh -i './multipass-ssh-key' jeth@${ANSIBLE_SERVER_IP}
 
 ```
 

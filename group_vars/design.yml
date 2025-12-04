@@ -4,4 +4,4 @@ node_type: design
 dss_port: 10000
 data_dir: /home/jeth/design_data
 boot_name: dev
-service_name: dataiku.dev
+service_name: dataiku.{{ boot_name }}

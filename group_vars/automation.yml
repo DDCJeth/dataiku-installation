@@ -4,4 +4,4 @@ node_type: automation
 dss_port: 10011
 data_dir: /home/jeth/automation_data
 boot_name: prod
-service_name: dataiku.prod
+service_name: dataiku.{{ boot_name}}
