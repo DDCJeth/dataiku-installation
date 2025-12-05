@@ -1,7 +1,57 @@
 
 # Dataiku DSS Installation Guide for Linux
 
-## Dataiku node description
+## Installation Architecture Diagram
+
+![Dataiku DSS Installation Architecture](./z_imgs/ARCHITECTURE.jpg)
+
+This section should contain a visual diagram showing the relationships between Ansible and the DSS server (Design, Automation, Deployer, API, and Govern nodes).
+
+## Installation Steps
+
+1. Prepare ansible server by following requirements in file _`prerequis.txt`_ and installing ansible requirements on this.
+2. Prepare dss dataiku servers following dss requirements
+3. Configure ansible files with dss servers informations
+4. Launch dss installation from ansible server with playbook
+
+
+
+### 1. Prepare Ansible Server
+
+First, copy all files and folders from this repo on ansible servers
+
+- Install ansible with script
+```bash
+chmod +x ansible-installation.sh
+./ansible-installation.sh
+```
+
+- Test Ansible on ansible
+```bash
+export PATH=/home/jeth/.local/bin:$PATH
+ansible --version
+```
+
+### 2. Prepare dss dataiku servers
+
+- Create the same dss user on all servers
+- Servers must communicate each other and with the ansible server 
+- ansible user has to have ssh access to all dss servers with root privileges
+
+### 3.Configure ansible files
+
+- Modify following files with right informations:
+    - `inventory.ini`
+    - all files in folder `group_vars`
+
+refer to file `DEPLOYMENT_README.md` for more details
+
+### 4. Launch ansible playbook
+
+Refer to file `DEPLOYMENT_README.md`
+
+
+## Dataiku Node Description
 
 ### Design Node
 The Design Node is the primary development environment where data scientists and engineers create projects, build ML models, and design data pipelines. It serves as the central hub for collaborative work, featuring an interactive IDE for coding, visual workflow builders, and data exploration tools. The Design Node handles project management, version control, and stores all project artifacts and metadata locally.
@@ -98,70 +148,3 @@ Enterprise governance and compliance engine that ensures data security, quality,
 - At least 4GB RAM recommended
 - 20GB free disk space minimum
 - Internet connection for downloading dependencies
-
-## Installation Steps
-
-### 0. launch GCP VMs
-```bash
-# Launch GCP VM
-
-# Get Ip adress for instance 
-ANSIBLE_SERVER_IP=$(gcloud compute instances list --filter="name=('ansible-vm')" --format="value(EXTERNAL_IP)")
-
-# Copy ansible installation script
-scp -o StrictHostKeyChecking=no -i './multipass-ssh-key' ansible-installation.sh jeth@${ANSIBLE_SERVER_IP}:/home/jeth
-
-scp -r -o StrictHostKeyChecking=no -i './multipass-ssh-key' roles jeth@${ANSIBLE_SERVER_IP}:/home/jeth
-
-scp -r -o StrictHostKeyChecking=no -i './multipass-ssh-key' host_vars jeth@${ANSIBLE_SERVER_IP}:/home/jeth
-
-
-scp -r -o StrictHostKeyChecking=no -i './multipass-ssh-key' group_vars jeth@${ANSIBLE_SERVER_IP}:/home/jeth
-
-scp -o StrictHostKeyChecking=no -i './multipass-ssh-key' inventory.ini jeth@${ANSIBLE_SERVER_IP}:/home/jeth
-
-scp -o StrictHostKeyChecking=no -i './multipass-ssh-key' playbook.yml jeth@${ANSIBLE_SERVER_IP}:/home/jeth
-
-scp -o StrictHostKeyChecking=no -i './multipass-ssh-key' multipass-ssh-key jeth@${ANSIBLE_SERVER_IP}:/home/jeth
-
-scp -r -o StrictHostKeyChecking=no -i './multipass-ssh-key' dataiku-dss-13.5.5.tar.gz jeth@${ANSIBLE_SERVER_IP}:/home/jeth
-
-# Connect to ansible server
-ssh -i './multipass-ssh-key' jeth@${ANSIBLE_SERVER_IP}
-
-```
-
-### 1. Install Ansible
-```bash
-chmod +x ansible-installation.sh
-./ansible-installation.sh
-```
-
-### 2. Test Ansible on ansible vm
-```bash
-export PATH=/home/jeth/.local/bin:$PATH
-ansible --version
-```
-
-
-### 3. Launch ansible playbook
-
-Refer you to file `DEPLOYMENT_README.md`
-
-
-
-
-
-
-
-
-
-- name: Download Dataiku archive
-  get_url:
-    url: "{{ download_url }}"
-    dest: "{{ tmp_archive }}"
-    mode: '0644'
-  register: downloaded
-  until: downloaded is succeeded
-  retries: 3
-  delay: 10

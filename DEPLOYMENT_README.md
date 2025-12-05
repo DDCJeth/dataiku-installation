@@ -5,14 +5,13 @@ This document describes how to deploy Dataiku DSS nodes using the Ansible playbo
 **Prerequisites**
 - Control machine: Linux with `ansible` installed (Ansible 2.9+ recommended).
 - Targets: reachable via SSH with Python 3 installed.
-- SSH key: `multipass-ssh-key` (present in this directory) or another key configured in `group_vars` / `host_vars`.
+- SSH key: `multipass-ssh-key` (present in this directory) 
 - Internet access from targets (or an alternate `download_url` pointing to an accessible tarball).
 
 **Repository layout**
-- `inventory.ini` — Ansible inventory (groups: `design`, `automation`, `deployer`, `api`).
+- `inventory.ini` — Ansible inventory (groups: `design`, `automation`, `deployer`, `api`, `govern`).
 - `playbook.yml` — Main playbook (three plays: design, automation, deployer).
 - `group_vars/` — Per-group variables (ports, data dirs, boot names) and `all.yml` for global defaults.
-- `host_vars/` — Per-host overrides (labels, flags, etc.).
 - `roles/dataiku/` — Role performing download, install, `install-boot`, and systemd service deployment.
 
 **Important variables**

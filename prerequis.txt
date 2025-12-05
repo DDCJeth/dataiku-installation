@@ -5,4 +5,3 @@
 - Installation de python>=3.8
 - commuication ssh avec les noeuds sur lesquels installer Dataiku
 - Avoir un utilisateur ayant les droits root
-
